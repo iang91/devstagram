@@ -7,5 +7,7 @@ pagina principal
 @vite('resources/js/app.js')
 
 @section('contenido')
-contenido de pagina principal
+
+<x-listar-post :posts="$posts" />
+
 @endsection

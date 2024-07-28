@@ -1,17 +1,26 @@
 <?php
 
-use App\Http\Controllers\ComentarioController;
-use App\Http\Controllers\ImagenController;
-use App\Http\Controllers\LikeController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\LogOutController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ImagenController;
+use App\Http\Controllers\LogOutController;
+use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\ComentarioController;
+use App\Http\Controllers\FollowerController;
+use App\Http\Controllers\HomeController;
+use App\Models\Follower;
 
-Route::get('/', function () {
-    return view('principal', ['name' => 'Inicio']);
-});
+//Rutas para el perfil 
+Route::get('/editar-perfil', [PerfilController::class, 'index'])->name('perfil.index');
+Route::post('/editar-perfil', [PerfilController::class, 'store'])->name('perfil.store');
+
+Route::get('/', HomeController::class)->name('home');
+
+
+
 Route::get('/crear-cuenta', [RegisterController::class, 'index']);
 Route::post('/crear-cuenta', [RegisterController::class, 'store']);
 
@@ -35,4 +44,9 @@ Route::post('/images', [ImagenController::class, 'store'])->name('imagen.store')
 Route::post('/posts/{post}/likes', [LikeController::class, 'store'])->name('post.likes.store');
 
 Route::delete('/posts/{post}/likes', [LikeController::class, 'destroy'])->name('post.likes.destroy');
+
+//Siguiendo a Usuarios
+Route::post('/{user:username}/follow', [FollowerController::class, 'store'])->name('users.follow');
+Route::delete('/{user:username}/unfollow', [FollowerController::class, 'destroy'])->name('users.unfollow');
+
 
